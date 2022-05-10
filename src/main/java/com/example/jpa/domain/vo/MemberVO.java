@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 // @Entity
 // JPA에서 관리하도록 설정하는 어노테이션
@@ -38,7 +41,17 @@ public class MemberVO {
     @Column(name = "MEMBER_NAME")
     private String memberName;
     @Column(name = "MEMBER_BIRTH")
-    private String memberBirth;
+    private Date memberBirth;
+
+    public void updateMemberId(String memberId){
+        this.memberId = memberId;
+    }
+
+    public void updateMemberBirth(String memberBirth){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {this.memberBirth = sdf.parse(memberBirth);} catch (ParseException e) {;}
+    }
+
 
 //    @Builder는 생성자로 초기화를 진행할 때 간결한 소스코드로 초기화를 진행할 수 있다.
 //    하지만 클래스에 @Bulider를 사용하게 되면 @NoArgsConstructor와 같이 사용할 때 오류가 발생한다.
@@ -47,23 +60,11 @@ public class MemberVO {
 //    따라서, Builder를 사용할 때에는 직접 생성자를 선언하여 생성자에 @Builder를 붙여준다.
     @Builder
     public MemberVO(Long memberNumber, String memberId, String memberName, String memberBirth) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         this.memberNumber = memberNumber;
         this.memberId = memberId;
         this.memberName = memberName;
-        this.memberBirth = memberBirth;
+        try {this.memberBirth = sdf.parse(memberBirth);} catch (ParseException e) {;}
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 

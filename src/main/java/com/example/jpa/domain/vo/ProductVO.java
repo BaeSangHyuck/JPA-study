@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name = "TBL_PRODUCT")
 @SequenceGenerator(name = "SEQ_PRODUCT", allocationSize = 1)
 @Getter
-@ToString
+@ToString(of ={"productNumber","productName","productPrice","productStock"})
 @NoArgsConstructor
 public class ProductVO {
     @Id
@@ -45,6 +45,10 @@ public class ProductVO {
 //    이 때 연관관계의 주인을 mappedBy로 대상 객체인 productVO로 설정해준다.
     @OneToMany(mappedBy = "productVO") // 다대일 양방향
     List<OrderVO> orders = new ArrayList<>();
+
+    public void updateStock(Long productStock){
+        this.productStock = productStock;
+    }
 
     @Builder
     public ProductVO(Long productNumber, String productName, Long productPrice, Long productStock) {
